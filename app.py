@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
+from sklearn.preprocessing import PolynomialFeatures
 
 # Load the dataset
 salary_data = pd.read_csv('Salary_Data.csv')
@@ -15,6 +16,11 @@ salary_data = salary_data.dropna(subset=['Years of Experience', 'Salary'])
 # Select relevant columns
 X = salary_data[['Years of Experience']]
 y = salary_data['Salary']
+
+# Create polynomial features
+degree = st.selectbox("Choose the polynomial degree for model fitting:", [1, 2, 3], index=1)
+poly = PolynomialFeatures(degree=degree)
+X_poly = poly.fit_transform(X)
 
 # Split the data into training and testing sets (80% train, 20% test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
